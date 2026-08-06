@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'di/injection_container.dart';
@@ -21,6 +22,16 @@ class FineRouteApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Fine Route',
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+      ],
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );

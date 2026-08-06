@@ -2,8 +2,7 @@ class StringConstants {
   StringConstants._();
 
   // App
-  static const String appName = 'Mayura Hospitals';
-  static const String tagline = 'Your Health, Our Priority';
+  static const String appName = 'Fine Route';
 
   // Auth
   static const String welcome = 'Welcome Back';
@@ -51,13 +50,7 @@ class StringConstants {
   static const String noAppointments = 'No upcoming appointments';
   static const String comingSoon = 'Coming Soon';
 
-  // Quick Actions
-  static const String bookApt = 'Book Apt';
-  static const String logVitals = 'Log Vitals';
-  static const String prescriptions = 'Prescriptions';
-  static const String emergency = 'Emergency';
-  static const String aiSymptom = 'AI Symptom';
-  static const String labReports = 'Lab Reports';
+
 
   // Navigation
   static const String home = 'Home';

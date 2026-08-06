@@ -106,8 +106,8 @@ class _ChipInputWidgetState extends State<ChipInputWidget> {
                 deleteIcon:
                     widget.enabled ? const Icon(Icons.close, size: 16) : null,
                 onDeleted: widget.enabled ? () => _removeItem(index) : null,
-                backgroundColor: AppColors.primary.withOpacity(0.08),
-                side: BorderSide(color: AppColors.primary.withOpacity(0.2)),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                side: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -129,7 +129,7 @@ class _ChipInputWidgetState extends State<ChipInputWidget> {
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: AppColors.border, width: 1),
+                borderSide: const BorderSide(color: AppColors.border, width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),

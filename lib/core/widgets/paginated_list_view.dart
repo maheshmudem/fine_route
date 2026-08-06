@@ -78,11 +78,11 @@ class _PaginatedListViewState<T> extends State<PaginatedListView<T>> {
           );
     }
 
-    Widget listView = ListView.separated(
+    final Widget listView = ListView.separated(
       controller: _scrollController,
       padding: widget.padding ?? const EdgeInsets.all(16),
       itemCount: widget.items.length + (widget.hasMore ? 1 : 0),
-      separatorBuilder: (_, __) =>
+      separatorBuilder: (_, _) =>
           widget.separator ?? const SizedBox(height: 12),
       itemBuilder: (context, index) {
         if (index >= widget.items.length) {

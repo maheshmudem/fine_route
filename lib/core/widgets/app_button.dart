@@ -27,7 +27,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final buttonHeight = height ?? 52.0;
 
-    Widget child = isLoading
+    final Widget child = isLoading
         ? const SizedBox(
             height: 20,
             width: 20,
@@ -54,7 +54,7 @@ class AppButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
+              disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
               disabledForegroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               elevation: 2,

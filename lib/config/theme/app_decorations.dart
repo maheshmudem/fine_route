@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'app_sizes.dart';
 
 class AppDecorations {
   AppDecorations._();
 
-  static BoxDecoration get card => BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
+  static BoxDecoration get card => const BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: AppSizes.brLg,
       );
 
-  static BoxDecoration get cardElevated => BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.10),
-            blurRadius: 20,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      );
-
-  static BoxDecoration get primaryGradient => BoxDecoration(
-        gradient: const LinearGradient(
+  static BoxDecoration get primaryGradient => const BoxDecoration(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [AppColors.primary, AppColors.primaryDark],
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppSizes.brLg,
       );
 
   static BoxDecoration get primaryGradientFull => const BoxDecoration(
@@ -45,30 +27,32 @@ class AppDecorations {
         ),
       );
 
-  static BoxDecoration get secondaryGradient => BoxDecoration(
-        gradient: const LinearGradient(
+  static BoxDecoration get secondaryGradient => const BoxDecoration(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [AppColors.secondary, AppColors.secondaryDark],
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppSizes.brLg,
       );
 
   static BoxDecoration get inputDecoration => BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.surfaceColor,
+        borderRadius: AppSizes.brMd,
         border: Border.all(color: AppColors.border),
       );
 
-  static BoxShadow get defaultShadow => BoxShadow(
-        color: Colors.black.withOpacity(0.06),
+  // Shadows should ideally be avoided in M3 in favor of SurfaceTint.
+  // If custom shadows are needed, use these sparingly.
+  static BoxShadow get defaultShadow => const BoxShadow(
+        color: AppColors.shadowColor,
         blurRadius: 12,
-        offset: const Offset(0, 2),
+        offset: Offset(0, 2),
       );
 
-  static BoxShadow get elevatedShadow => BoxShadow(
-        color: Colors.black.withOpacity(0.12),
+  static BoxShadow get elevatedShadow => const BoxShadow(
+        color: AppColors.shadowColor,
         blurRadius: 20,
-        offset: const Offset(0, 6),
+        offset: Offset(0, 6),
       );
 }

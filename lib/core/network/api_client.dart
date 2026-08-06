@@ -14,9 +14,9 @@ class ApiClient {
       {VoidCallback? onUnauthorized}) {
     String baseUrl;
     try {
-      baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://mayurahospitals.com/api';
+      baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://finroute01.pythonanywhere.com/api/v1';
     } catch (_) {
-      baseUrl = 'https://mayurahospitals.com/api';
+      baseUrl = 'https://finroute01.pythonanywhere.com/api/v1';
     }
     _dio = Dio(
       BaseOptions(
