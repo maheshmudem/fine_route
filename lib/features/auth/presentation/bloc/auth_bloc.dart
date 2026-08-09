@@ -40,6 +40,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           key: AppConstants.jwtTokenKey,
           value: entity.accessToken,
         );
+        await _secureStorage.write(
+          key: AppConstants.refreshTokenKey,
+          value: entity.refreshToken,
+        );
         emit(const AuthSuccess(message: 'Login successful'));
       },
     );

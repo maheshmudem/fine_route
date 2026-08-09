@@ -70,8 +70,65 @@ class ErrorInterceptor extends Interceptor {
               ),
             );
           }
-          // UNAUTHORIZED - clear token and redirect
-          await _secureStorage.delete(key: AppConstants.jwtTokenKey);
+          // Try to refresh token
+          final refreshToken = await _secureStorage.read(key: AppConstants.refreshTokenKey);
+          
+          if (refreshToken != null) {
+            try {
+              final refreshDio = Dio();
+              final refreshResponse = await refreshDio.post(
+                '${err.requestOptions.baseUrl}/auth/token/refresh/',
+                data: {'refresh': refreshToken},
+              );
+
+              if (refreshResponse.statusCode == 200) {
+                final responseData = refreshResponse.data;
+                // Parse the new tokens. 
+                // We'll check standard JWT formats for the new access token
+                String? newAccessToken;
+                String? newRefreshToken;
+
+                if (responseData is Map) {
+                  if (responseData.containsKey('access')) {
+                    newAccessToken = responseData['access'];
+                  } else if (responseData.containsKey('access_token')) {
+                    newAccessToken = responseData['access_token'];
+                  } else if (responseData['data'] is Map) {
+                    newAccessToken = responseData['data']['access_token'];
+                    newRefreshToken = responseData['data']['refresh_token'];
+                  }
+                  
+                  if (responseData.containsKey('refresh')) {
+                    newRefreshToken = responseData['refresh'];
+                  } else if (responseData.containsKey('refresh_token')) {
+                    newRefreshToken = responseData['refresh_token'];
+                  }
+                }
+
+                if (newAccessToken != null && newAccessToken.isNotEmpty) {
+                  // Save new token
+                  await _secureStorage.write(key: AppConstants.jwtTokenKey, value: newAccessToken);
+                  
+                  if (newRefreshToken != null && newRefreshToken.isNotEmpty) {
+                    await _secureStorage.write(key: AppConstants.refreshTokenKey, value: newRefreshToken);
+                  }
+
+                  // Retry the original request
+                  final retryDio = Dio();
+                  // Reconstruct the original request options but update Authorization header
+                  err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
+                  
+                  final retryResponse = await retryDio.fetch(err.requestOptions);
+                  return handler.resolve(retryResponse);
+                }
+              }
+            } catch (_) {
+              // Refresh failed, proceed to logout
+            }
+          }
+
+          // UNAUTHORIZED or Refresh failed - clear token and redirect
+          await _secureStorage.deleteAll();
           onUnauthorized?.call();
           return handler.reject(
             DioException(

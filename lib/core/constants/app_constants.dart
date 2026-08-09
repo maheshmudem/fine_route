@@ -21,6 +21,7 @@ class AppConstants {
 
   // Secure storage keys
   static const String jwtTokenKey = 'jwt_token';
+  static const String refreshTokenKey = 'refresh_token';
 
   // Resend verification cooldown
   static const int resendCooldownSeconds = 60;
