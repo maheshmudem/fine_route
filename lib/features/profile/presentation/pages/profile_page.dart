@@ -175,7 +175,7 @@ class _ProfileView extends StatelessWidget {
           const Divider(height: 1, indent: 56, color: AppColors.divider),
           _buildListTile(context, icon: Icons.notifications, title: 'Notifications', onTap: () {}),
           const Divider(height: 1, indent: 56, color: AppColors.divider),
-          _buildListTile(context, icon: Icons.calculate, title: 'Loan Calculator', onTap: () {}),
+          _buildListTile(context, icon: Icons.calculate, title: 'Loan Calculator', onTap: () => context.push('/calculator')),
           const Divider(height: 1, indent: 56, color: AppColors.divider),
           _buildListTile(
             context,

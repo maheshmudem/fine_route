@@ -10,4 +10,6 @@ class ApiEndpoints {
   static const String expenseCategories = '/masters/expense-categories/';
   static const String paymentModes = '/masters/payment-modes/';
 
+  // Calculator
+  static const String calculator = '/app/calculator/';
 }

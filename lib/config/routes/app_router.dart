@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/app_constants.dart';
 import '../../di/injection_container.dart';
 import '../../features/analytics/presentation/pages/analytics_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/calculator/presentation/bloc/calculator_bloc.dart';
+import '../../features/calculator/presentation/pages/calculator_page.dart';
 import '../../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../../features/dashboard/presentation/pages/main_page.dart';
 import '../../features/expenses/presentation/pages/expenses_page.dart';
@@ -54,6 +57,14 @@ GoRouter createRouter() {
         path: '/expenses',
         name: 'expenses',
         builder: (context, state) => const ExpensesPage(),
+      ),
+      GoRoute(
+        path: '/calculator',
+        name: 'calculator',
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<CalculatorBloc>(),
+          child: const CalculatorPage(),
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
