@@ -1,32 +1,17 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../core/network/api_client.dart';
-import '../core/network/network_info.dart';
-import '../features/auth/data/repositories/auth_repository.dart';
-import '../features/auth/presentation/bloc/auth_bloc.dart';
+import 'core_di.dart';
+import 'auth_di.dart';
+import 'profile_di.dart';
+import 'expenses_di.dart';
 
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupDI() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  getIt.registerLazySingleton<FlutterSecureStorage>(
-    () => const FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    ),
-  );
+  // Core Dependencies
+  await setupCoreDI(getIt);
 
-  getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
-  getIt.registerLazySingleton<ApiClient>(
-    () => ApiClient(getIt<FlutterSecureStorage>()),
-  );
-
-  // Features - Auth
-  getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(getIt<ApiClient>()),
-  );
-  getIt.registerFactory<AuthBloc>(
-    () => AuthBloc(getIt<AuthRepository>(), getIt<FlutterSecureStorage>()),
-  );
+  // Feature Dependencies
+  setupAuthDI(getIt);
+  setupProfileDI(getIt);
+  setupExpensesDI(getIt);
 }

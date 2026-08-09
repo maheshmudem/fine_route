@@ -1,22 +1,21 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import '../../../../core/error/failures.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
 
-abstract class AuthRepository {
-  Future<Either<Failure, LoginResponse>> login(LoginRequest request);
+abstract class AuthRemoteDataSource {
+  Future<LoginResponse> login(LoginRequest request);
 }
 
-class AuthRepositoryImpl implements AuthRepository {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiClient _apiClient;
 
-  AuthRepositoryImpl(this._apiClient);
+  AuthRemoteDataSourceImpl(this._apiClient);
 
   @override
-  Future<Either<Failure, LoginResponse>> login(LoginRequest request) async {
+  Future<LoginResponse> login(LoginRequest request) async {
     try {
       final response = await _apiClient.post(
         ApiEndpoints.login,
@@ -25,9 +24,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final loginResponse = LoginResponse.fromJson(response.data);
       if (loginResponse.success) {
-        return Right(loginResponse);
+        return loginResponse;
       } else {
-        return Left(ServerFailure(message: loginResponse.message));
+        throw ServerException(message: loginResponse.message);
       }
     } on DioException catch (e) {
       if (e.response != null) {
@@ -36,11 +35,12 @@ class AuthRepositoryImpl implements AuthRepository {
         if (data is Map<String, dynamic> && data.containsKey('message')) {
           message = data['message'];
         }
-        return Left(ServerFailure(message: message, statusCode: e.response?.statusCode));
+        throw ServerException(message: message, statusCode: e.response?.statusCode);
       }
-      return Left(NetworkFailure(message: e.message ?? 'Connection error'));
+      throw ServerException(message: e.message ?? 'Connection error');
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      if (e is ServerException) rethrow;
+      throw ServerException(message: e.toString());
     }
   }
 }
