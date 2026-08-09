@@ -25,7 +25,7 @@ class AppErrorWidget extends StatelessWidget {
             Icon(
               icon ?? Icons.error_outline_rounded,
               size: 64,
-              color: AppColors.primary.withOpacity(0.6),
+              color: AppColors.primary.withValues(alpha:0.6),
             ),
             const SizedBox(height: 16),
             Text(
