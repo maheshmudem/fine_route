@@ -4,6 +4,7 @@ import 'calculator_di.dart';
 import 'core_di.dart';
 import 'expenses_di.dart';
 import 'profile_di.dart';
+import 'dashboard_di.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -16,4 +17,5 @@ Future<void> setupDI() async {
   setupExpensesDI(getIt);
   initCalculator();
   setupProfileDI(getIt);
+  initDashboard();
 }

@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
+import 'core/widgets/offline_banner_wrapper.dart';
 import 'di/injection_container.dart';
 
 void main() async {
@@ -34,6 +35,11 @@ class FineRouteApp extends StatelessWidget {
       ],
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return OfflineBannerWrapper(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

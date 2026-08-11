@@ -75,16 +75,22 @@ class ErrorInterceptor extends Interceptor {
           
           if (refreshToken != null) {
             try {
-              final refreshDio = Dio();
+              final refreshDio = Dio(BaseOptions(
+                baseUrl: err.requestOptions.baseUrl,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+              ));
+              
               final refreshResponse = await refreshDio.post(
-                '${err.requestOptions.baseUrl}/auth/token/refresh/',
+                '/auth/token/refresh/',
                 data: {'refresh': refreshToken},
               );
 
               if (refreshResponse.statusCode == 200) {
                 final responseData = refreshResponse.data;
                 // Parse the new tokens. 
-                // We'll check standard JWT formats for the new access token
                 String? newAccessToken;
                 String? newRefreshToken;
 
@@ -114,7 +120,10 @@ class ErrorInterceptor extends Interceptor {
                   }
 
                   // Retry the original request
-                  final retryDio = Dio();
+                  final retryDio = Dio(BaseOptions(
+                    baseUrl: err.requestOptions.baseUrl,
+                  ));
+                  
                   // Reconstruct the original request options but update Authorization header
                   err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
                   
@@ -122,8 +131,10 @@ class ErrorInterceptor extends Interceptor {
                   return handler.resolve(retryResponse);
                 }
               }
-            } catch (_) {
-              // Refresh failed, proceed to logout
+            } catch (e) {
+              // Refresh failed, proceed to logout.
+              // Printing the error will help us debug if it happens again
+              print('Token refresh failed: $e');
             }
           }
 

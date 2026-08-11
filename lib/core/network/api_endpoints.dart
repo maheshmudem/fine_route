@@ -12,4 +12,8 @@ class ApiEndpoints {
 
   // Calculator
   static const String calculator = '/app/calculator/';
+
+  // Dashboard
+  static const String dashboard = '/app/dashboard/';
+  static const String dashboardWeeklySummary = '/app/dashboard/weekly-summary/';
 }
