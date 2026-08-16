@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../config/theme/app_colors.dart';
 import '../../../../core/widgets/app_text.dart';
-import '../widgets/upgrade_plan_card.dart';
 import '../widgets/upgrade_feature_row.dart';
+import '../widgets/upgrade_plan_card.dart';
 
 class UpgradePage extends StatelessWidget {
   const UpgradePage({super.key});

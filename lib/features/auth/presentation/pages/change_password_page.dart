@@ -173,10 +173,10 @@ class _ChangePasswordViewState extends State<_ChangePasswordView> {
                         LayoutBuilder(
                           builder: (context, constraints) {
                             final isWide = constraints.maxWidth > 400;
-                            final authText = Row(
+                            const authText = Row(
                               children: [
                                 AppText.bodyMedium('Two-factor authentication is ', color: AppColors.textBody),
-                                const AppText.bodyMedium('enabled.', color: AppColors.success, fontWeight: FontWeight.bold),
+                                 AppText.bodyMedium('enabled.', color: AppColors.success, fontWeight: FontWeight.bold),
                               ],
                             );
                             final button = ElevatedButton(

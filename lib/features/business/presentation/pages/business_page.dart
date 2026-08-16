@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../config/theme/app_colors.dart';
-import '../../../../core/widgets/app_text.dart';
 import '../../../../core/widgets/app_loader.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../di/injection_container.dart';
+import '../../domain/entities/business.dart';
 import '../bloc/business_bloc.dart';
 import '../bloc/business_event.dart';
 import '../bloc/business_state.dart';
-import '../../domain/entities/business.dart';
 
 class BusinessPage extends StatelessWidget {
   const BusinessPage({super.key});

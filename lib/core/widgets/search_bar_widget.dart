@@ -65,7 +65,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               const Icon(Icons.search, color: AppColors.iconColor, size: 20),
           suffixIcon: ValueListenableBuilder<TextEditingValue>(
             valueListenable: _controller,
-            builder: (_, value, __) {
+            builder: (_, value, _) {
               if (value.text.isEmpty) return const SizedBox.shrink();
               return IconButton(
                 icon: const Icon(Icons.close,

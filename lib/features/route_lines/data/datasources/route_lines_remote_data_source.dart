@@ -32,7 +32,7 @@ class RouteLinesRemoteDataSourceImpl implements RouteLinesRemoteDataSource {
         });
         return result;
       } else {
-        throw ServerException(message: 'Failed to load available portions');
+        throw const ServerException(message: 'Failed to load available portions');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) throw e.error as ServerException;
@@ -51,7 +51,7 @@ class RouteLinesRemoteDataSourceImpl implements RouteLinesRemoteDataSource {
         final data = response.data['data'] as List;
         return data.map((json) => RouteLineModel.fromJson(json)).toList();
       } else {
-        throw ServerException(message: 'Failed to load route lines');
+        throw const ServerException(message: 'Failed to load route lines');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) throw e.error as ServerException;
@@ -76,7 +76,7 @@ class RouteLinesRemoteDataSourceImpl implements RouteLinesRemoteDataSource {
       if ((response.statusCode == 200 || response.statusCode == 201) && response.data != null && response.data['data'] != null) {
         return RouteLineModel.fromJson(response.data['data']);
       } else {
-        throw ServerException(message: 'Failed to create route line');
+        throw const ServerException(message: 'Failed to create route line');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) throw e.error as ServerException;
@@ -101,7 +101,7 @@ class RouteLinesRemoteDataSourceImpl implements RouteLinesRemoteDataSource {
       if ((response.statusCode == 200 || response.statusCode == 201) && response.data != null && response.data['data'] != null) {
         return RouteLineModel.fromJson(response.data['data']);
       } else {
-        throw ServerException(message: 'Failed to update route line');
+        throw const ServerException(message: 'Failed to update route line');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) throw e.error as ServerException;
@@ -117,7 +117,7 @@ class RouteLinesRemoteDataSourceImpl implements RouteLinesRemoteDataSource {
     try {
       final response = await apiClient.delete('${ApiEndpoints.lines}$publicId/');
       if (response.statusCode != 200 && response.statusCode != 204) {
-        throw ServerException(message: 'Failed to delete route line');
+        throw const ServerException(message: 'Failed to delete route line');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) throw e.error as ServerException;

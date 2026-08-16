@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_colors.dart';
-import '../../../../core/widgets/app_text.dart';
 import '../../../../core/widgets/app_loader.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../di/injection_container.dart';
 import '../bloc/expenses_bloc.dart';
 import '../bloc/expenses_event.dart';
 import '../bloc/expenses_state.dart';
-import '../widgets/expense_summary_card.dart';
+import '../widgets/add_expense_dialog.dart';
 import '../widgets/expense_filter_bar.dart';
 import '../widgets/expense_list_item.dart';
-import '../widgets/add_expense_dialog.dart';
+import '../widgets/expense_summary_card.dart';
 
 class ExpensesPage extends StatelessWidget {
   const ExpensesPage({super.key});
@@ -61,7 +61,7 @@ class _ExpensesView extends StatelessWidget {
           for (var e in state.filteredExpenses) {
             totalOp += double.tryParse(e.amount) ?? 0;
           }
-          double avg = state.filteredExpenses.isEmpty ? 0 : totalOp / state.filteredExpenses.length;
+          final double avg = state.filteredExpenses.isEmpty ? 0 : totalOp / state.filteredExpenses.length;
 
           return Stack(
             children: [

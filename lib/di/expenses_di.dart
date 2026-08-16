@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
+import '../../core/network/api_client.dart';
 import '../../features/expenses/data/datasources/expenses_remote_data_source.dart';
 import '../../features/expenses/data/repositories/expenses_repository_impl.dart';
 import '../../features/expenses/domain/repositories/expenses_repository.dart';
 import '../../features/expenses/domain/usecases/expenses_usecases.dart';
 import '../../features/expenses/presentation/bloc/expenses_bloc.dart';
-import '../../core/network/api_client.dart';
 
 final getIt = GetIt.instance;
 

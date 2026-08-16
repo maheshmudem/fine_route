@@ -90,7 +90,7 @@ class AppText extends StatelessWidget {
     );
 
     // 2. Localization & Arguments Handling
-    // TODO: Replace with your chosen package's translation call, e.g.:
+    // Note: Replace with your chosen package's translation call, e.g.:
     // String displayText = isKey ? AppLocalizations.of(context)!.translate(text, namedArgs: namedArgs) : text;
     final String displayText = text; // Placeholder until localization is fully setup
 

@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../core/error/failures.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/entities/auth_entity.dart';
-import '../datasources/auth_remote_data_source.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_remote_data_source.dart';
 import '../models/login_request.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -39,7 +39,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         return Right(entity);
       }
-      return Left(ServerFailure(message: 'Invalid login response data'));
+      return const Left( ServerFailure(message: 'Invalid login response data'));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     } catch (e) {

@@ -28,7 +28,7 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
         final data = response.data['data'] as List;
         return data.map((json) => ActivityLogModel.fromJson(json)).toList();
       } else {
-        throw ServerException(message: 'Failed to load activities');
+        throw const ServerException(message: 'Failed to load activities');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) {

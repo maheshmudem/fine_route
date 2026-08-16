@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/app_colors.dart';
-import '../../../../core/widgets/app_text.dart';
 import '../../../../core/widgets/app_loader.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../domain/entities/route_line_entity.dart';
 import '../bloc/create_route_line/create_route_line_bloc.dart';
 import '../bloc/create_route_line/create_route_line_event.dart';
@@ -131,9 +131,9 @@ class _CreateRouteLineSheetState extends State<CreateRouteLineSheet> {
   Widget _buildHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surfaceColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(
@@ -198,7 +198,7 @@ class _CreateRouteLineSheetState extends State<CreateRouteLineSheet> {
             hintStyle: TextStyle(color: AppColors.textBody.withValues(alpha: 0.5), fontSize: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: AppColors.border),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -223,11 +223,11 @@ class _CreateRouteLineSheetState extends State<CreateRouteLineSheet> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 children: [
-                  const Icon(Icons.calendar_today, size: 20, color: AppColors.primary),
-                  const SizedBox(width: 8),
-                  const AppText.titleMedium('Assign Days & Time Portions', fontWeight: FontWeight.bold, color: AppColors.textHeading),
+                  Icon(Icons.calendar_today, size: 20, color: AppColors.primary),
+                  SizedBox(width: 8),
+                  AppText.titleMedium('Assign Days & Time Portions', fontWeight: FontWeight.bold, color: AppColors.textHeading),
                 ],
               ),
               const SizedBox(height: 4),
@@ -363,7 +363,7 @@ class _CreateRouteLineSheetState extends State<CreateRouteLineSheet> {
   Widget _buildFooter() {
     return Container(
       padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + MediaQuery.of(context).padding.bottom),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surfaceColor,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
@@ -373,7 +373,7 @@ class _CreateRouteLineSheetState extends State<CreateRouteLineSheet> {
             child: OutlinedButton(
               onPressed: () => context.pop(),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: AppColors.border),
+                side: const BorderSide(color: AppColors.border),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),

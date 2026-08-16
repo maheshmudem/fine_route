@@ -1,6 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:dartz/dartz.dart';
+import 'package:fine_route/core/error/failures.dart';
+import 'package:fine_route/core/usecase/usecase.dart';
 import 'package:fine_route/features/expenses/domain/entities/expense.dart';
 import 'package:fine_route/features/expenses/domain/entities/expense_category.dart';
 import 'package:fine_route/features/expenses/domain/entities/payment_mode.dart';
@@ -8,9 +9,8 @@ import 'package:fine_route/features/expenses/domain/usecases/expenses_usecases.d
 import 'package:fine_route/features/expenses/presentation/bloc/expenses_bloc.dart';
 import 'package:fine_route/features/expenses/presentation/bloc/expenses_event.dart';
 import 'package:fine_route/features/expenses/presentation/bloc/expenses_state.dart';
-import 'package:fine_route/core/usecase/usecase.dart';
-import 'package:fine_route/core/error/failures.dart';
-import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 class MockGetExpensesUseCase extends Mock implements GetExpensesUseCase {}
 class MockGetExpenseCategoriesUseCase extends Mock implements GetExpenseCategoriesUseCase {}
@@ -19,7 +19,7 @@ class MockAddExpenseUseCase extends Mock implements AddExpenseUseCase {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(NoParams());
+    registerFallbackValue(const NoParams());
   });
 
   late ExpensesBloc bloc;
@@ -85,7 +85,7 @@ void main() {
     blocTest<ExpensesBloc, ExpensesState>(
       'emits [error] when LoadExpensesData fails',
       build: () {
-        when(() => mockGetExpensesUseCase(any())).thenAnswer((_) async => Left(const ServerFailure(message: 'Server error')));
+        when(() => mockGetExpensesUseCase(any())).thenAnswer((_) async => const Left(ServerFailure(message: 'Server error')));
         when(() => mockGetExpenseCategoriesUseCase(any())).thenAnswer((_) async => Right(tCategories));
         when(() => mockGetPaymentModesUseCase(any())).thenAnswer((_) async => Right(tPaymentModes));
         return bloc;

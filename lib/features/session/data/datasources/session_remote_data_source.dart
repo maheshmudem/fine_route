@@ -29,7 +29,7 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
         final data = response.data['data'] as List;
         return data.map((json) => SessionModel.fromJson(json)).toList();
       } else {
-        throw ServerException(message: 'Failed to load sessions');
+        throw const ServerException(message: 'Failed to load sessions');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) {
@@ -49,7 +49,7 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
     try {
       final response = await apiClient.delete('${ApiEndpoints.sessions}$id/');
       if (response.statusCode != 200 && response.statusCode != 204) {
-        throw ServerException(message: 'Failed to revoke session');
+        throw const ServerException(message: 'Failed to revoke session');
       }
     } on DioException catch (e) {
       if (e.error is ServerException) {

@@ -23,8 +23,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     emit(DashboardLoading());
 
     // Run both requests concurrently
-    final dashboardResultFuture = getDashboardData(NoParams());
-    final weeklySummaryResultFuture = getWeeklySummary(NoParams());
+    final dashboardResultFuture = getDashboardData(const NoParams());
+    final weeklySummaryResultFuture = getWeeklySummary(const NoParams());
 
     final results = await Future.wait([dashboardResultFuture, weeklySummaryResultFuture]);
 

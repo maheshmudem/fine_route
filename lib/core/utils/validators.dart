@@ -61,7 +61,7 @@ class Validators {
     if (value.trim().length > 50) {
       return 'Name must not exceed 50 characters';
     }
-    final nameRegex = RegExp(r"^[a-zA-Z\s.]+$");
+    final nameRegex = RegExp(r'^[a-zA-Z\s.]+$');
     if (!nameRegex.hasMatch(value.trim())) {
       return 'Name can only contain letters, spaces, and periods';
     }

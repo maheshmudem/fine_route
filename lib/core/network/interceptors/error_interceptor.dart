@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../constants/app_constants.dart';
 import '../../error/exceptions.dart';
@@ -134,7 +135,7 @@ class ErrorInterceptor extends Interceptor {
             } catch (e) {
               // Refresh failed, proceed to logout.
               // Printing the error will help us debug if it happens again
-              print('Token refresh failed: $e');
+              debugPrint('Token refresh failed: $e');
             }
           }
 
