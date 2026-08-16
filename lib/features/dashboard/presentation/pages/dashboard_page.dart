@@ -11,6 +11,7 @@ import '../bloc/dashboard_bloc.dart';
 import '../bloc/dashboard_event.dart';
 import '../bloc/dashboard_state.dart';
 import '../widgets/action_buttons_section.dart';
+import '../widgets/configured_route_lines_section.dart';
 import '../widgets/daily_route_cash_section.dart';
 import '../widgets/metric_grid_section.dart';
 import '../widgets/recent_collections_section.dart';
@@ -117,6 +118,8 @@ class _DashboardView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 children: [
                   const ActionButtonsSection(),
+                  const SizedBox(height: 24),
+                  const ConfiguredRouteLinesSection(),
                   const SizedBox(height: 24),
                   DailyRouteCashSection(metrics: state.dashboardData.metrics),
                   const SizedBox(height: 12),

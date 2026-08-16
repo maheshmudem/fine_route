@@ -20,6 +20,9 @@ class LoggingInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     debugPrint('┌── RESPONSE ─────────────────────────────────────────────');
     debugPrint('│ ${response.statusCode} ${response.requestOptions.uri}');
+    if (response.data != null) {
+      debugPrint('│ Data: ${response.data}');
+    }
     debugPrint('└─────────────────────────────────────────────────────────');
     handler.next(response);
   }

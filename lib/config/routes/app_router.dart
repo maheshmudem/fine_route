@@ -14,6 +14,9 @@ import '../../features/expenses/presentation/pages/expenses_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/upgrade/presentation/pages/upgrade_page.dart';
+import '../../features/activity/presentation/pages/activity_page.dart';
+import '../../features/device/presentation/pages/device_page.dart';
+import '../../features/session/presentation/pages/session_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -65,6 +68,21 @@ GoRouter createRouter() {
           create: (context) => getIt<CalculatorBloc>(),
           child: const CalculatorPage(),
         ),
+      ),
+      GoRoute(
+        path: '/activity',
+        name: 'activity',
+        builder: (context, state) => const ActivityPage(),
+      ),
+      GoRoute(
+        path: '/devices',
+        name: 'devices',
+        builder: (context, state) => const DevicePage(),
+      ),
+      GoRoute(
+        path: '/sessions',
+        name: 'sessions',
+        builder: (context, state) => const SessionPage(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

@@ -14,9 +14,11 @@ class ApiClient {
       {VoidCallback? onUnauthorized}) {
     String baseUrl;
     try {
-      baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://finroute01.pythonanywhere.com/api/v1';
+      baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://app.fin-route.site/api/v1';
+      // baseUrl = dotenv.env['API_BASE_URL'] ?? 'https://finroute01.pythonanywhere.com/api/v1';
     } catch (_) {
-      baseUrl = 'https://finroute01.pythonanywhere.com/api/v1';
+      baseUrl = 'https://app.fin-route.site/api/v1';
+      // baseUrl = 'https://finroute01.pythonanywhere.com/api/v1';
     }
     _dio = Dio(
       BaseOptions(
@@ -75,6 +77,16 @@ class ApiClient {
     Options? options,
   }) async {
     return _dio.put<T>(path,
+        data: data, queryParameters: queryParameters, options: options);
+  }
+
+  Future<Response<T>> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return _dio.patch<T>(path,
         data: data, queryParameters: queryParameters, options: options);
   }
 
