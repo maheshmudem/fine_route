@@ -20,14 +20,24 @@ class AppBottomNavBar extends StatelessWidget {
       indicatorColor: AppColors.primaryLight.withValues(alpha: 0.2),
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.dashboard_outlined),
-          selectedIcon: Icon(Icons.dashboard, color: AppColors.primary),
-          label: 'Dashboard',
+          icon: Icon(Icons.home_outlined),
+          selectedIcon: Icon(Icons.home, color: AppColors.primary),
+          label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.analytics_outlined),
-          selectedIcon: Icon(Icons.analytics, color: AppColors.primary),
-          label: 'Analytics',
+          icon: Icon(Icons.map_outlined),
+          selectedIcon: Icon(Icons.map, color: AppColors.primary),
+          label: 'Routes',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.people_outline),
+          selectedIcon: Icon(Icons.people, color: AppColors.primary),
+          label: 'Customers',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.insert_chart_outlined),
+          selectedIcon: Icon(Icons.insert_chart, color: AppColors.primary),
+          label: 'Reports',
         ),
         NavigationDestination(
           icon: Icon(Icons.person_outline),

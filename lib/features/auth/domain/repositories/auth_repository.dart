@@ -6,4 +6,5 @@ import '../entities/auth_entity.dart';
 abstract class AuthRepository {
   Future<Either<Failure, AuthEntity>> login(LoginRequest request);
   Future<void> logout();
+  Future<Either<Failure, void>> changePassword(String oldPassword, String newPassword, String confirmPassword);
 }

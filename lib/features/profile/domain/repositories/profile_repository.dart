@@ -4,4 +4,5 @@ import '../entities/profile.dart';
 
 abstract class ProfileRepository {
   Future<Either<Failure, Profile>> getProfile();
+  Future<Either<Failure, Profile>> updateProfile(Map<String, dynamic> data);
 }

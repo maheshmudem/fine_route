@@ -6,14 +6,21 @@ import '../entities/expense_category.dart';
 import '../entities/payment_mode.dart';
 import '../repositories/expenses_repository.dart';
 
-class GetExpensesUseCase implements UseCase<List<Expense>, NoParams> {
+class GetExpensesParams {
+  final String? dateFrom;
+  final String? dateTo;
+
+  GetExpensesParams({this.dateFrom, this.dateTo});
+}
+
+class GetExpensesUseCase implements UseCase<List<Expense>, GetExpensesParams> {
   final ExpensesRepository repository;
 
   GetExpensesUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<Expense>>> call(NoParams params) {
-    return repository.getExpenses();
+  Future<Either<Failure, List<Expense>>> call(GetExpensesParams params) {
+    return repository.getExpenses(dateFrom: params.dateFrom, dateTo: params.dateTo);
   }
 }
 

@@ -3,6 +3,7 @@ class ApiEndpoints {
 
   // Auth
   static const String login = '/auth/login/';
+  static const String passwordChange = '/auth/password/change/';
   static const String me = '/auth/me/';
   static const String activity = '/auth/me/activity/';
   static const String sessions = '/auth/sessions/';
@@ -21,4 +22,7 @@ class ApiEndpoints {
   // Route Lines
   static const String lines = '/app/lines/';
   static const String linesAvailablePortions = '/app/lines/available-portions/';
+
+  // Workspace
+  static const String workspace = '/app/workspace/';
 }

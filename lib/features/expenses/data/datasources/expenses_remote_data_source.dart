@@ -5,7 +5,7 @@ import '../models/expense_model.dart';
 import '../models/payment_mode_model.dart';
 
 abstract class ExpensesRemoteDataSource {
-  Future<List<ExpenseModel>> getExpenses();
+  Future<List<ExpenseModel>> getExpenses({String? dateFrom, String? dateTo});
   Future<List<ExpenseCategoryModel>> getExpenseCategories();
   Future<List<PaymentModeModel>> getPaymentModes();
   Future<ExpenseModel> addExpense(Map<String, dynamic> data);
@@ -17,8 +17,13 @@ class ExpensesRemoteDataSourceImpl implements ExpensesRemoteDataSource {
   ExpensesRemoteDataSourceImpl(this.apiClient);
 
   @override
-  Future<List<ExpenseModel>> getExpenses() async {
-    final response = await apiClient.get('${ApiEndpoints.expenses}?page_size=1000');
+  Future<List<ExpenseModel>> getExpenses({String? dateFrom, String? dateTo}) async {
+    String url = '${ApiEndpoints.expenses}?page_size=1000';
+    if (dateFrom != null && dateTo != null) {
+      url += '&date_from=$dateFrom&date_to=$dateTo';
+    }
+
+    final response = await apiClient.get(url);
     if (response.data['success'] == true) {
       final data = response.data['data'] as List;
       return data.map((e) => ExpenseModel.fromJson(e)).toList();

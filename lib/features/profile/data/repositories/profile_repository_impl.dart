@@ -21,4 +21,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Profile>> updateProfile(Map<String, dynamic> data) async {
+    try {
+      final profileModel = await remoteDataSource.updateProfile(data);
+      return Right(profileModel);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

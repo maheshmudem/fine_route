@@ -115,7 +115,10 @@ class _ProfileView extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.edit, size: 16, color: AppColors.textWhite),
                   onPressed: () {
-                    // TODO: Implement Edit Profile Image
+                    context.push('/profile/edit', extra: {
+                      'profile': profile,
+                      'bloc': context.read<ProfileBloc>(),
+                    });
                   },
                   constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                   padding: EdgeInsets.zero,
@@ -167,6 +170,10 @@ class _ProfileView extends StatelessWidget {
       ),
       child: Column(
         children: [
+          _buildListTile(context, icon: Icons.business, title: 'Business', onTap: () => context.push('/profile/business')),
+          const Divider(height: 1, indent: 56, color: AppColors.divider),
+          _buildListTile(context, icon: Icons.lock_outline, title: 'Security', onTap: () => context.push('/profile/change-password')),
+          const Divider(height: 1, indent: 56, color: AppColors.divider),
           _buildListTile(context, icon: Icons.settings, title: 'Settings', onTap: () => context.push('/settings')),
           const Divider(height: 1, indent: 56, color: AppColors.divider),
           _buildListTile(context, icon: Icons.upgrade, title: 'Upgrade', onTap: () => context.push('/upgrade')),

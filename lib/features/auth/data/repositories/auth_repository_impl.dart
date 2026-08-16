@@ -52,4 +52,16 @@ class AuthRepositoryImpl implements AuthRepository {
     await _secureStorage.deleteAll();
     await _sharedPreferences.clear();
   }
+
+  @override
+  Future<Either<Failure, void>> changePassword(String oldPassword, String newPassword, String confirmPassword) async {
+    try {
+      await _remoteDataSource.changePassword(oldPassword, newPassword, confirmPassword);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

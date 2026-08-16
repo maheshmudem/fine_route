@@ -12,10 +12,10 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
   ExpensesRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, List<Expense>>> getExpenses() async {
+  Future<Either<Failure, List<Expense>>> getExpenses({String? dateFrom, String? dateTo}) async {
     try {
-      final data = await remoteDataSource.getExpenses();
-      return Right(data);
+      final remoteExpenses = await remoteDataSource.getExpenses(dateFrom: dateFrom, dateTo: dateTo);
+      return Right(remoteExpenses);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

@@ -9,6 +9,7 @@ import 'device_di.dart';
 import 'session_di.dart';
 import 'dashboard_di.dart';
 import 'route_lines_di.dart';
+import 'business_di.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -26,4 +27,5 @@ Future<void> setupDI() async {
   initDevice();
   initSession();
   initRouteLines();
+  setupBusinessDI(getIt);
 }

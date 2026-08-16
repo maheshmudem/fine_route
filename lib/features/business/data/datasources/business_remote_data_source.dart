@@ -2,24 +2,24 @@ import 'package:dio/dio.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
-import '../models/profile_model.dart';
+import '../models/business_model.dart';
 
-abstract class ProfileRemoteDataSource {
-  Future<ProfileModel> getProfile();
-  Future<ProfileModel> updateProfile(Map<String, dynamic> data);
+abstract class BusinessRemoteDataSource {
+  Future<BusinessModel> getBusiness();
+  Future<BusinessModel> updateBusiness(Map<String, dynamic> data);
 }
 
-class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   final ApiClient apiClient;
 
-  ProfileRemoteDataSourceImpl({required this.apiClient});
+  BusinessRemoteDataSourceImpl({required this.apiClient});
 
   @override
-  Future<ProfileModel> getProfile() async {
+  Future<BusinessModel> getBusiness() async {
     try {
-      final response = await apiClient.get(ApiEndpoints.me);
+      final response = await apiClient.get(ApiEndpoints.workspace);
       if (response.data != null && response.data['success'] == true) {
-        return ProfileModel.fromJson(response.data['data']);
+        return BusinessModel.fromJson(response.data['data']);
       } else {
         throw ServerException(message: response.data?['message'] ?? 'Unknown error occurred');
       }
@@ -37,11 +37,11 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<ProfileModel> updateProfile(Map<String, dynamic> data) async {
+  Future<BusinessModel> updateBusiness(Map<String, dynamic> data) async {
     try {
-      final response = await apiClient.patch(ApiEndpoints.me, data: data);
+      final response = await apiClient.patch(ApiEndpoints.workspace, data: data);
       if (response.data != null && response.data['success'] == true) {
-        return ProfileModel.fromJson(response.data['data']);
+        return BusinessModel.fromJson(response.data['data']);
       } else {
         throw ServerException(message: response.data?['message'] ?? 'Unknown error occurred');
       }

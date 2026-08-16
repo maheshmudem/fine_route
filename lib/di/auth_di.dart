@@ -8,6 +8,8 @@ import '../features/auth/domain/repositories/auth_repository.dart';
 import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/auth/domain/usecases/change_password_usecase.dart';
+import '../features/auth/presentation/bloc/change_password_bloc.dart';
 
 void setupAuthDI(GetIt getIt) {
   // Data sources
@@ -27,9 +29,15 @@ void setupAuthDI(GetIt getIt) {
   getIt.registerLazySingleton<LogoutUseCase>(
     () => LogoutUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<ChangePasswordUseCase>(
+    () => ChangePasswordUseCase(getIt<AuthRepository>()),
+  );
 
   // Blocs
   getIt.registerFactory<AuthBloc>(
     () => AuthBloc(getIt<LoginUseCase>(), getIt<FlutterSecureStorage>(), getIt<LogoutUseCase>()),
+  );
+  getIt.registerFactory<ChangePasswordBloc>(
+    () => ChangePasswordBloc(changePasswordUseCase: getIt<ChangePasswordUseCase>()),
   );
 }

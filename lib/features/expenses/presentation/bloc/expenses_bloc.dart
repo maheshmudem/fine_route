@@ -31,7 +31,8 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
   Future<void> _onLoadExpensesData(LoadExpensesData event, Emitter<ExpensesState> emit) async {
     emit(state.copyWith(status: ExpensesStatus.loading));
     try {
-      final expensesFuture = getExpensesUseCase(const NoParams());
+      final dates = _getDateRange(state.dateFilter);
+      final expensesFuture = getExpensesUseCase(GetExpensesParams(dateFrom: dates.$1, dateTo: dates.$2));
       final categoriesFuture = getExpenseCategoriesUseCase(const NoParams());
       final paymentModesFuture = getPaymentModesUseCase(const NoParams());
 
@@ -43,7 +44,7 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
 
       if (expensesResult.isRight() && categoriesResult.isRight() && paymentModesResult.isRight()) {
         final expensesList = expensesResult.getOrElse(() => <Expense>[]);
-        final filteredList = _applyFilters(expensesList, state.searchQuery, state.dateFilter);
+        final filteredList = _applyFilters(expensesList, state.searchQuery);
         
         emit(state.copyWith(
           status: ExpensesStatus.success,
@@ -84,22 +85,37 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
   }
 
   void _onFilterBySearch(FilterExpensesBySearch event, Emitter<ExpensesState> emit) {
-    final filtered = _applyFilters(state.expenses, event.query, state.dateFilter);
+    final filtered = _applyFilters(state.expenses, event.query);
     emit(state.copyWith(
       searchQuery: event.query,
       filteredExpenses: filtered,
     ));
   }
 
-  void _onFilterByDate(FilterExpensesByDate event, Emitter<ExpensesState> emit) {
-    final filtered = _applyFilters(state.expenses, state.searchQuery, event.filter);
-    emit(state.copyWith(
-      dateFilter: event.filter,
-      filteredExpenses: filtered,
-    ));
+  Future<void> _onFilterByDate(FilterExpensesByDate event, Emitter<ExpensesState> emit) async {
+    emit(state.copyWith(dateFilter: event.filter, status: ExpensesStatus.loading));
+    
+    final dates = _getDateRange(event.filter);
+    final expensesResult = await getExpensesUseCase(GetExpensesParams(dateFrom: dates.$1, dateTo: dates.$2));
+    
+    expensesResult.fold(
+      (failure) => emit(state.copyWith(status: ExpensesStatus.error, errorMessage: failure.message)),
+      (expenses) {
+        final filteredList = _applyFilters(expenses, state.searchQuery);
+        emit(state.copyWith(
+          status: ExpensesStatus.success,
+          expenses: expenses,
+          filteredExpenses: filteredList,
+        ));
+      }
+
+
+
+
+    );
   }
 
-  List<Expense> _applyFilters(List<Expense> expenses, String query, DateFilter filter) {
+  List<Expense> _applyFilters(List<Expense> expenses, String query) {
     List<Expense> filtered = expenses;
 
     if (query.isNotEmpty) {
@@ -112,35 +128,29 @@ class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
       }).toList();
     }
 
+    return filtered;
+  }
+
+  (String?, String?) _getDateRange(DateFilter filter) {
     final now = DateTime.now();
+    String formatDate(DateTime date) => 
+        '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+
     switch (filter) {
       case DateFilter.all:
-        break;
+        return (null, null);
       case DateFilter.today:
-        filtered = filtered.where((e) {
-          final date = DateTime.tryParse(e.expenseDate);
-          if (date == null) return false;
-          return date.year == now.year && date.month == now.month && date.day == now.day;
-        }).toList();
-        break;
+        final todayStr = formatDate(now);
+        return (todayStr, todayStr);
       case DateFilter.week:
         final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-        filtered = filtered.where((e) {
-          final date = DateTime.tryParse(e.expenseDate);
-          if (date == null) return false;
-          return date.isAfter(startOfWeek.subtract(const Duration(days: 1))) && date.isBefore(now.add(const Duration(days: 1)));
-        }).toList();
-        break;
+        final endOfWeek = now.add(Duration(days: 7 - now.weekday));
+        return (formatDate(startOfWeek), formatDate(endOfWeek));
       case DateFilter.month:
-        filtered = filtered.where((e) {
-          final date = DateTime.tryParse(e.expenseDate);
-          if (date == null) return false;
-          return date.year == now.year && date.month == now.month;
-        }).toList();
-        break;
+        final startOfMonth = DateTime(now.year, now.month, 1);
+        final endOfMonth = DateTime(now.year, now.month + 1, 0); // 0 gets the last day of the previous month, so month+1, 0 gets last day of current month.
+        return (formatDate(startOfMonth), formatDate(endOfMonth));
     }
-
-    return filtered;
   }
 }
 

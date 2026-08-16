@@ -17,6 +17,13 @@ import '../../features/upgrade/presentation/pages/upgrade_page.dart';
 import '../../features/activity/presentation/pages/activity_page.dart';
 import '../../features/device/presentation/pages/device_page.dart';
 import '../../features/session/presentation/pages/session_page.dart';
+import '../../features/route_lines/presentation/pages/routes_page.dart';
+import '../../features/customers/presentation/pages/customers_page.dart';
+import '../../features/profile/presentation/pages/edit_profile_page.dart';
+import '../../features/profile/domain/entities/profile.dart';
+import '../../features/profile/presentation/bloc/profile_bloc.dart';
+import '../../features/business/presentation/pages/business_page.dart';
+import '../../features/auth/presentation/pages/change_password_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -46,11 +53,7 @@ GoRouter createRouter() {
         name: 'login',
         builder: (context, state) => const LoginPage(),
       ),
-      GoRoute(
-        path: '/settings',
-        name: 'settings',
-        builder: (context, state) => const SettingsPage(),
-      ),
+
       GoRoute(
         path: '/upgrade',
         name: 'upgrade',
@@ -84,6 +87,11 @@ GoRouter createRouter() {
         name: 'sessions',
         builder: (context, state) => const SessionPage(),
       ),
+      GoRoute(
+        path: '/settings',
+        name: 'settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainPage(navigationShell: navigationShell);
@@ -95,6 +103,24 @@ GoRouter createRouter() {
                 path: '/',
                 name: 'dashboard',
                 builder: (context, state) => const DashboardPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/routes',
+                name: 'routes',
+                builder: (context, state) => const RoutesPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/customers',
+                name: 'customers',
+                builder: (context, state) => const CustomersPage(),
               ),
             ],
           ),
@@ -113,6 +139,31 @@ GoRouter createRouter() {
                 path: '/profile',
                 name: 'profile',
                 builder: (context, state) => const ProfilePage(),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    name: 'edit-profile',
+                    builder: (context, state) {
+                      final extra = state.extra as Map<String, dynamic>;
+                      return BlocProvider<ProfileBloc>.value(
+                        value: extra['bloc'] as ProfileBloc,
+                        child: EditProfilePage(
+                          profile: extra['profile'] as Profile,
+                        ),
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    path: 'business',
+                    name: 'business',
+                    builder: (context, state) => const BusinessPage(),
+                  ),
+                  GoRoute(
+                    path: 'change-password',
+                    name: 'change-password',
+                    builder: (context, state) => const ChangePasswordPage(),
+                  ),
+                ],
               ),
             ],
           ),
