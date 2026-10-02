@@ -117,6 +117,26 @@ class _LoginViewState extends State<_LoginView> {
                       );
                     },
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const AppText.bodyMedium('Don\'t have an account? '),
+                      TextButton(
+                        onPressed: () => context.push('/register'),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const AppText.bodyMedium(
+                          'Register',
+                          color: Colors.blue, // Or use AppColors.primary if available
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

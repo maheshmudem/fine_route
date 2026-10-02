@@ -7,6 +7,8 @@ import '../../di/injection_container.dart';
 import '../../features/activity/presentation/pages/activity_page.dart';
 import '../../features/analytics/presentation/pages/analytics_page.dart';
 import '../../features/auth/presentation/pages/change_password_page.dart';
+import '../../features/auth/presentation/pages/register_page.dart';
+import '../../features/auth/presentation/pages/verify_otp_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/business/presentation/pages/business_page.dart';
 import '../../features/calculator/presentation/bloc/calculator_bloc.dart';
@@ -35,13 +37,15 @@ GoRouter createRouter() {
       final secureStorage = getIt<FlutterSecureStorage>();
       final token = await secureStorage.read(key: AppConstants.jwtTokenKey);
       final isLoggedIn = token != null && token.isNotEmpty;
-      final isLoggingIn = state.matchedLocation == '/login';
+      final isAuthRoute = state.matchedLocation == '/login' || 
+                          state.matchedLocation == '/register' || 
+                          state.matchedLocation == '/verify-otp';
 
-      if (!isLoggedIn && !isLoggingIn) {
+      if (!isLoggedIn && !isAuthRoute) {
         return '/login';
       }
 
-      if (isLoggedIn && isLoggingIn) {
+      if (isLoggedIn && isAuthRoute) {
         return '/';
       }
 
@@ -52,6 +56,19 @@ GoRouter createRouter() {
         path: '/login',
         name: 'login',
         builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/register',
+        name: 'register',
+        builder: (context, state) => const RegisterPage(),
+      ),
+      GoRoute(
+        path: '/verify-otp',
+        name: 'verify-otp',
+        builder: (context, state) {
+          final mobileNumber = state.extra as String? ?? '';
+          return VerifyOtpPage(mobileNumber: mobileNumber);
+        },
       ),
 
       GoRoute(

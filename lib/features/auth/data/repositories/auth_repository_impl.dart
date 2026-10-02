@@ -3,10 +3,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../data/models/login_request.dart';
+import '../../data/models/register_request.dart';
+import '../../data/models/otp_request.dart';
 import '../../domain/entities/auth_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
-import '../models/login_request.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -57,6 +59,42 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> changePassword(String oldPassword, String newPassword, String confirmPassword) async {
     try {
       await _remoteDataSource.changePassword(oldPassword, newPassword, confirmPassword);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> register(RegisterRequest request) async {
+    try {
+      await _remoteDataSource.register(request);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resendOtp(OtpRequest request) async {
+    try {
+      await _remoteDataSource.resendOtp(request);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifyOtp(OtpRequest request) async {
+    try {
+      await _remoteDataSource.verifyOtp(request);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
